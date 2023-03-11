@@ -1,17 +1,37 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import {BrowserRouter as Router, Route,Routes, Switch } from 'react-router-dom';
 import './index.css';
+import { ThemeProvider } from '@mui/material';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import Register from './register';
+import Verify from './verify';
+import Dashboard from './dashboard';
+import theme from "./theme";
+
+
+
+const checkLogin = () => {
+  console.log("checking")
+  if(!localStorage.getItem("user")){
+    return false;
+  }else{
+      return true;
+  }
+}
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <ThemeProvider theme={theme}>
+    <Router>
+      
+         <Route exact path="/" component={App} />
+         <Route exact path="/register" component={Register} />
+         <Route exact path="/verify" component={Verify} />
+         <Route exact path="/dashboard" component={Dashboard} />
+  </Router>
+  </ThemeProvider>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
