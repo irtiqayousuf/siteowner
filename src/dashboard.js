@@ -12,7 +12,8 @@ import axios from "axios";
 import {useHistory} from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import Footer from './footer';
-import Image from 'mui-image'
+import Image from 'mui-image';
+
 
 const useStyles = makeStyles((theme) => ({
     appBar:{
@@ -73,6 +74,11 @@ const useStyles = makeStyles((theme) => ({
 const Dashboard=()=>{
     const classes = useStyles();
     const history = useHistory();
+    const logout=() =>{
+         
+      localStorage.clear();
+      history.push("/");
+   }
     return(
         <>
         <AppBar sx={{backgroundColor:"white", color:"#001c2f"}} position="static">
@@ -94,7 +100,7 @@ const Dashboard=()=>{
   <Typography>The journey of a thousand miles begins with a single step</Typography>
    </Stack>
 <Stack spacing={2} direction="row" className={classes.btn}  >
-<Button type='submit'  color='primary' variant="contained" onClick={()=>{history.push('/')}}>Logout</Button>
+<Button type='submit'  color='primary' variant="contained" onClick={logout}>Logout</Button>
                  
 </Stack>
 

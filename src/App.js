@@ -268,14 +268,14 @@ const Blog = () => {
       >
         <MenuIcon />
       </IconButton>
-      <Typography variant="h5" color="#001c2f" paddingRight={40} href="/">
+      <Typography variant="h5" color="#001c2f" paddingRight={19} href="/">
        Kashmir Travels
       </Typography>
       <Stack spacing={4} direction="row" className={classes.btn} paddingRight={50} >
   <Typography>The journey of a thousand miles begins with a single step</Typography>
    </Stack>
 <Stack spacing={2} direction="row" className={classes.btn}  >
-<Button type='submit'  color='primary' variant="contained" onClick={()=>{history.push('/register')}}>Register</Button>
+<Button type='submit'  color='primary' variant="contained" onClick={()=>{history.push('/login')}}>Login</Button>
                  
 </Stack>
 

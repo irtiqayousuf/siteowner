@@ -61,36 +61,51 @@ const useStyles = makeStyles((theme) => ({
    
   }));
 
-const Register=()=>{
+const LoginEmail=()=>{
 
     const history = useHistory();
-    const cus = JSON.parse(localStorage.getItem('user'));
-    console.log(cus._id);
-    let phone=cus.phone;
+    
+
+    // const formHandler = (e) => {
+    //   e.preventDefault();
+    //   console.log("line 72",e);
+    //   let phone = e.target[0].value;
+      
+    //   let config = { 'headers' : { 'Content-Type' : 'application/json', 'Authorization' : "Bearer 12228492498479284917491498" } };
+    //            const response = axios.post("http://localhost:8080/api/verify",{ phone: phone });
+    //       console.log("Response ",response);
+    //       localStorage.setItem("user",JSON.stringify(response.data));
+    //       setTimeout(()=>{
+    //           history.push("/verify");
+    //       })
+    //     }
+       
     const formHandler = (e) => {
       e.preventDefault();
       console.log("line 72",e);
-      let otp = e.target[0].value;
+      let email = e.target[0].value;
+     
       let config = { 'headers' : { 'Content-Type' : 'application/json', 'Authorization' : "Bearer 12228492498479284917491498" } };
-      axios.post("http://localhost:8080/comp-otp",{ otp : otp, phone: phone}, config).then(resp => {
-        console.log("res" ,resp.data);
-        let res = resp.data;
-        if(!res.error && res.status === 200){
-            // return <Redirect to="/" />;
-            localStorage.setItem("user",JSON.stringify(res.data));
-           setTimeout(()=>{
-             history.push("/dashboard");
-           },100)
-        }
-        else{
-            alert(res.message);
-        }
-
-    },(err) => {
-
-    }); 
-          
+      axios.post("http://localhost:8080/api/verifyemail",{ email : email }, config).then(resp => {
+          console.log("res" ,resp.data);
+          let res = resp.data;
+          if(!res.error && res.status === 200){
+              // return <Redirect to="/" />;
+              localStorage.setItem("user",JSON.stringify(res.data));
+             setTimeout(()=>{
+               history.push("/verifyemail");
+             },100)
+          }
+          else{
+              alert(res.message);
+          }
+  
+      },(err) => {
+  
+      })
+      
     }
+       
 
     const classes = useStyles();
     const paperStyle={padding :50,height:'40vh',width:280, margin:"10px auto",  boxShadow:"5px 10px #001c2f"}
@@ -109,14 +124,14 @@ const Register=()=>{
       >
         <MenuIcon />
       </IconButton>
-      <Typography variant="h5" color="#001c2f" paddingRight={40} href="/">
+      <Typography variant="h5" color="#001c2f" paddingRight={35} href="/">
        Kashmir Travels
       </Typography>
-      <Stack spacing={4} direction="row" className={classes.btn} paddingRight={50} >
+      <Stack spacing={4} direction="row" paddingRight={30} >
   <Typography>The journey of a thousand miles begins with a single step</Typography>
    </Stack>
-<Stack spacing={2} direction="row" className={classes.btn}  >
-<Button type='submit'  color='primary' variant="contained" onClick={()=>{history.push('/register')}}>Back</Button>
+<Stack spacing={2} direction="row"  >
+<Button type='submit'  color='primary' variant="contained" onClick={()=>{history.push('/')}}>Back</Button>
                  
 </Stack>
 
@@ -142,14 +157,21 @@ const Register=()=>{
             <form onSubmit={(e)=>{ formHandler(e) }} >
               <Stack spacing={2} direction="column">
                 <Grid align='center'>
-                    <h2>Enter OTP Received On Your Phone</h2>
+                    <h2>Sign In With Email</h2>
                 </Grid>
                 
-                <TextField className={classes.txt} type='text' name="text" label='Enter OTP' required placeholder='Enter OTP' fullWidth />
+                <TextField className={classes.txt} type='text' name="Email" label='Email' required placeholder='Enter your  Email' fullWidth />
                
-               
-                <Button type='submit' value="Submit" color='primary' variant="contained" style={btnstyle} fullWidth>Login</Button>
-                <Button type='submit' value="Submit" color='primary' variant="contained" style={btnstyle} fullWidth>Resend OTP</Button>
+                <FormControlLabel
+                    control={
+                    <Checkbox name="checkedB" color="primary"/>
+                    }
+                    label="Remember me"
+                 />
+                <Button type='submit' value="Submit" color='primary' variant="contained" style={btnstyle} fullWidth>Verify & Send OTP</Button>
+                <Typography >
+                   
+                </Typography>
                 </Stack>
                 {/* <Typography > Don't have an account?
                      <Link href="/register" >
@@ -165,4 +187,4 @@ const Register=()=>{
     );
 }
 
-export default Register;
+export default LoginEmail;

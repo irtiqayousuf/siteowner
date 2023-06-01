@@ -61,34 +61,35 @@ const useStyles = makeStyles((theme) => ({
    
   }));
 
-const Register=()=>{
+const VerifyEmail=()=>{
 
     const history = useHistory();
-    
-
+    const cus = JSON.parse(localStorage.getItem('user'));
+    console.log(cus._id);
+    let email=cus.email;
     const formHandler = (e) => {
       e.preventDefault();
       console.log("line 72",e);
-      let phone = e.target[0].value;
+      let otp = e.target[0].value;
       let config = { 'headers' : { 'Content-Type' : 'application/json', 'Authorization' : "Bearer 12228492498479284917491498" } };
-      axios.post("http://localhost:8080/loginUserPhone",{ phone : phone}, config).then(resp => {
-          console.log("res" ,resp.data);
-          let res = resp.data;
-          if(!res.error && res.status === 200){
-              // return <Redirect to="/" />;
-              localStorage.setItem("user",JSON.stringify(res.data));
-             setTimeout(()=>{
-               history.push("/verify");
-             },100)
-          }
-          else{
-              alert(res.message);
-          }
-  
-      },(err) => {
-  
-      })
-      
+      axios.post("http://localhost:8080/compemail-otp",{ otp : otp, email: email}, config).then(resp => {
+        console.log("res" ,resp.data);
+        let res = resp.data;
+        if(!res.error && res.status === 200){
+            // return <Redirect to="/" />;
+            localStorage.setItem("user",JSON.stringify(res.data));
+           setTimeout(()=>{
+             history.push("/dashboard");
+           },100)
+        }
+        else{
+            alert(res.message);
+        }
+
+    },(err) => {
+
+    }); 
+          
     }
 
     const classes = useStyles();
@@ -115,7 +116,7 @@ const Register=()=>{
   <Typography>The journey of a thousand miles begins with a single step</Typography>
    </Stack>
 <Stack spacing={2} direction="row" className={classes.btn}  >
-<Button type='submit'  color='primary' variant="contained" onClick={()=>{history.push('/verify')}}>Back</Button>
+<Button type='submit'  color='primary' variant="contained" onClick={()=>{history.push('/register')}}>Back</Button>
                  
 </Stack>
 
@@ -141,21 +142,14 @@ const Register=()=>{
             <form onSubmit={(e)=>{ formHandler(e) }} >
               <Stack spacing={2} direction="column">
                 <Grid align='center'>
-                    <h2>Sign In With Phone</h2>
+                    <h2>Enter OTP Received On Your Email</h2>
                 </Grid>
                 
-                <TextField className={classes.txt} type='number' name="number" label='Phone' required placeholder='Enter Phone' fullWidth />
+                <TextField className={classes.txt} type='text' name="text" label='Enter OTP' required placeholder='Enter OTP' fullWidth />
                
-                <FormControlLabel
-                    control={
-                    <Checkbox name="checkedB" color="primary"/>
-                    }
-                    label="Remember me"
-                 />
-                <Button type='submit' value="Submit" color='primary' variant="contained" style={btnstyle} fullWidth>Verify & Send OTP</Button>
-                <Typography >
-                   
-                </Typography>
+               
+                <Button type='submit' value="Submit" color='primary' variant="contained" style={btnstyle} fullWidth>Login</Button>
+                <Button type='submit' value="Submit" color='primary' variant="contained" style={btnstyle} fullWidth>Resend OTP</Button>
                 </Stack>
                 {/* <Typography > Don't have an account?
                      <Link href="/register" >
@@ -171,4 +165,4 @@ const Register=()=>{
     );
 }
 
-export default Register;
+export default VerifyEmail;
